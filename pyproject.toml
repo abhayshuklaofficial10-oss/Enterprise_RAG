@@ -9,5 +9,9 @@ dependencies = [
     "dotenv>=0.9.9",
     "logfire>=5.4.0",
     "pypdf>=6.21.4",
-    "unstructured[pdf]>=0.27.36",
+    "qdrant-client>=1.20.0",
+    "sentence-transformers>=6.2.0",
+    "spacy>=3.8.18",
+    "unstructured[docx,pdf,pptx]>=0.27.36",
+    "vertexai>=1.71.1",
 ]

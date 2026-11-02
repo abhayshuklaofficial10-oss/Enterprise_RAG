@@ -86,10 +86,12 @@ def parse_pdf_pages(
 
             # 5. Validate extraction
             if not documents:
-                raise ValueError(
+                logfire.warning(
                     "No extractable text found in PDF. "
-                    "It may be a scanned document requiring OCR."
+                    "It may be a scanned document requiring OCR.",
+                    file_name=path.name,
                 )
+                return []
 
             total_characters = sum(
                 len(doc["page_content"]) for doc in documents
@@ -116,10 +118,17 @@ def parse_pdf_pages(
 def parse_pdf(file_path: str) -> str:
     """
     Backward-compatible function returning plain text.
+
+    Returns an empty string when the PDF cannot be read or has no extractable
+    text (e.g. scanned documents), so callers can skip gracefully.
     """
-
-    pages = parse_pdf_pages(file_path)
-
-    return "\n\n".join(
-        doc["page_content"] for doc in pages
-    )
+    try:
+        pages = parse_pdf_pages(file_path)
+        return "\n\n".join(doc["page_content"] for doc in pages)
+    except Exception as e:
+        logfire.error(
+            "PDF parsing failed",
+            file_path=file_path,
+            error=str(e),
+        )
+        return ""

@@ -1,28 +1,38 @@
-from email._header_value_parser import Phrase
+
 import logfire
 from bs4 import BeautifulSoup
 
-def parse_html(file_path: str):
+
+def parse_html(file_path: str) -> str | None:
     """
-    parses html files.
+    Parses an HTML file and returns cleaned plain text.
+
+    Returns None when the file cannot be read or parsed.
     """
     with logfire.span("HTML Parsing", filename=file_path):
         try:
-            with open(file_path, 'r', encoding='utf-8') as file:
-                content =file.read()
-            soup =BeautifulSoup(content,"html.parser")
+            with open(file_path, "r", encoding="utf-8") as file:
+                content = file.read()
 
-            # 1. remove junk (scripts, styles, metadata)
-            for script in soup(["script","style","meta","noscript"]):
-                script.decompose()
-            #2. Extract Text
+            soup = BeautifulSoup(content, "html.parser")
+
+            # Remove junk (scripts, styles, metadata, noscript)
+            for tag in soup(["script", "style", "meta", "noscript"]):
+                tag.decompose()
+
+            # Extract text
             text = soup.get_text(separator="\n")
-            # 3. Clean up whitespace
-            lines = (line.strip() for line in text.splitlines())
-            chunks = (Phrase.strip() for line in lines for phrase in line.split(" "))
-            text_clean='\n'.join(chunk for chunk in chunks if chunk) 
 
-            return text_clean    
+            # Clean up whitespace: strip each line, split on spaces, drop blanks
+            lines = (line.strip() for line in text.splitlines())
+            chunks = (
+                phrase.strip()
+                for line in lines
+                for phrase in line.split(" ")
+            )
+            text_clean = "\n".join(chunk for chunk in chunks if chunk)
+
+            return text_clean or None
         except FileNotFoundError:
             logfire.error(f"File not found: {file_path}")
             return None

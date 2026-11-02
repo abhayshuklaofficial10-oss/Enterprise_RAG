@@ -44,7 +44,7 @@ def parse_office(file_path: str) -> list[dict]:
             # 3. Extract text and metadata
             for element in elements:
 
-                text = element.text.strip()
+                text = str(element).strip()
 
                 if not text:
                     continue
@@ -56,8 +56,12 @@ def parse_office(file_path: str) -> list[dict]:
                     "metadata": {
                         "source": path.name,
                         "file_path": str(path),
-                        "category": element.category,
-                        "page": metadata.page_number,
+                        "category": getattr(
+                            element, "category", None
+                        ),
+                        "page": getattr(
+                            metadata, "page_number", None
+                        ),
                     }
                 })
 
