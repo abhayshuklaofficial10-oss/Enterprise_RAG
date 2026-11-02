@@ -33,6 +33,7 @@ metadata.pkl
 
 # Data
 .kilo
+.venv312
 
 # IDEs
 .vscode/
