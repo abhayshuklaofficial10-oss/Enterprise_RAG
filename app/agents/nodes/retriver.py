@@ -1,14 +1,10 @@
-
 import logfire
-
 from app.agents.state import AgentState
 from app.services.retrieval.qdrant_service import search_enterprise_knowledge
-
 
 def retrieve_node(state: AgentState):
     """
     Performs vector search in Qdrant for technical queries.
-    Reranking is disabled for now.
     """
 
     query = state["current_query"]
