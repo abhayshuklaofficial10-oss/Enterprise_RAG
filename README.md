@@ -1,6 +1,6 @@
 # Enterprise Agentic RAG (Scalable Pipeline)
 
-A production-grade, enterprise-level scalable RAG system built with **LangGraph**, **Google Cloud Platform (GCP)**, and a **Portkey LLM Gateway**. The system distinguishes between technical "True Data" and random "Noisy Data" using semantic re-ranking, history-aware planning, and NeMo Guardrails for input/output safety.
+A production-grade, enterprise-level scalable RAG system built with **LangGraph**, **Qdrant**, local embeddings via **SentenceTransformers**, and a **Portkey LLM Gateway**. The system distinguishes between technical "True Data" and random "Noisy Data" using semantic re-ranking, history-aware planning, and NeMo Guardrails for input/output safety.
 
 ## Key Features
 
@@ -8,9 +8,9 @@ A production-grade, enterprise-level scalable RAG system built with **LangGraph*
 - **Guardrails**: NeMo Guardrails gate blocks off-topic, jailbreak, and injection inputs before any retrieval.
 - **LLM Gateway**: Portkey routes all LLM calls with automatic fallback between primary and backup Groq keys.
 - **Enterprise Search**: Qdrant Cloud for high-performance vector search + FlashRank for local semantic reranking.
+- **Embeddings**: Local `sentence-transformers` (`all-MiniLM-L6-v2`) for zero-cost, private, 384-dimensional embeddings.
 - **Observability**: Full trace nesting with **Pydantic Logfire** and **LangSmith** across every agent node.
-- **Evaluation Suite**: RAGAS-powered eval pipeline (6 metrics) with a dedicated Streamlit demo app.
-- **Scalable Infrastructure**: Deployed on **Google Cloud Run** with Cloud Build CI/CD and VPC Connectors.
+- **Evaluation Suite**: RAGAS-powered eval pipeline with Streamlit demo.
 
 ---
 
@@ -67,10 +67,9 @@ graph TD
 | Guardrails       | NeMo Guardrails                              |
 | Vector DB        | Qdrant Cloud                                 |
 | Reranking        | FlashRank (local, zero-latency)              |
-| Embeddings       | HuggingFace sentence-transformers            |
-| Cloud Compute    | Google Cloud Run (Serverless)                |
-| Cloud Storage    | Google Cloud Storage (GCS)                   |
-| Document Parsing | Google Document AI (PDF)                     |
+| Embeddings       | HuggingFace sentence-transformers (local)    |
+| Storage          | Local file storage / MinIO                   |
+| Document Parsing | PyPDF, BeautifulSoup, Unstructured           |
 | Observability    | Pydantic Logfire + LangSmith                 |
 | Evaluation       | RAGAS + custom Tool Correctness (Jaccard)    |
 

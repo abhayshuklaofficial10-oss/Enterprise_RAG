@@ -5,13 +5,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Settings:
-    # --- GCP CONFIG ---
-    #PROJECT_ID = os.getenv("PROJECT_ID", "dmtxpress")
-    #LOCATION = os.getenv("LOCATION", "us-central1")
-    #GCP_DOC_AI_LOCATION = os.getenv("GCP_DOC_AI_LOCATION", "us")
-    #GCP_DOC_AI_PROCESSOR_ID = os.getenv("GCP_DOC_AI_PROCESSOR_ID")
-    #RAW_BUCKET = os.getenv("GCP_RAW_BUCKET", "rag-data-raw")
-    #PROCESSED_BUCKET = os.getenv("GCP_PROCESSED_BUCKET", "rag-data-processed")
+    # --- EMBEDDINGS ---
+    EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "all-MiniLM-L6-v2")
 
     # --- VECTOR DB (QDRANT) ---
     QDRANT_URL = os.getenv("QDRANT_CLUSTER_ENDPOINT")
@@ -20,7 +15,7 @@ class Settings:
 
     # --- REASONING ENGINE (GROQ) ---
     GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-    GROQ_MODEL = "llama-3.3-70b-versatile"
+    GROQ_MODEL = os.getenv("GROQ_MODEL", "qwen/qwen3.8-27b")
     GROQ_FALLBACK_API_KEY = os.getenv("GROQ_FALLBACK_API_KEY")
 
     # --- LLM GATEWAY (PORTKEY) ---

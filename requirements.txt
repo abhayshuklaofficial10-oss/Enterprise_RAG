@@ -12,19 +12,11 @@ numpy                       # Numerical processing
 pytz                        # Timezone handling for logs
 nest-asyncio                # Support for nested async loops in notebooks/streamlit
 
-# --- GOOGLE CLOUD PLATFORM (GCP) ---
-#google-cloud-storage        # GCS for Raw and Processed file storage
-#google-cloud-aiplatform     # Vertex AI (Embeddings)
-#google-cloud-discoveryengine # Vertex AI Search services
-#google-cloud-documentai     # OCR & PDF Parsing via Cloud API (Replaced heavy local parsing)
-#cloud-sql-python-connector  # Secure connection to Cloud SQL (Postgres)
-
 # --- VECTOR DB & RETRIEVAL ---
 qdrant-client             # Vector Database for semantic search
 flashrank                   # Ultra-fast local cross-encoder for semantic reranking
 redis                       # Memorystore for semantic caching
 sqlalchemy                  # ORM for persistent conversation history
-pg8000                      # Postgres driver for Cloud SQL
 
 # --- LANGCHAIN & AGENTIC ORCHESTRATION ---
 langchain                   # Core LLM orchestration

@@ -1,52 +1,37 @@
-
+import logfire
 from sentence_transformers import SentenceTransformer
+from app.config import settings
 
-model = None
-
-BATCH_SIZE = 50
-
-MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
+_model = None
 
 
-def get_embedding_model():
-    global model
+def get_embedding_model() -> SentenceTransformer:
+    """
+    Lazy initialization of local SentenceTransformer model.
+    Runs entirely locally on CPU/GPU without external cloud dependencies.
+    """
+    global _model
+    if _model is None:
+        model_name = getattr(settings, "EMBEDDING_MODEL_NAME", "all-MiniLM-L6-v2")
+        with logfire.span("Initializing Local Embedding Model", model=model_name):
+            try:
+                _model = SentenceTransformer(model_name, local_files_only=True)
+            except Exception:
+                _model = SentenceTransformer(model_name)
+            logfire.info(f"Loaded local embedding model: {model_name}")
+    return _model
 
-    if model is None:
-        model = SentenceTransformer(MODEL_NAME)
 
-    return model
-
-
-def embed_query(query: str):
-    """Generate embedding for a single query."""
-
+def embed_query(query: str) -> list[float]:
+    """Embeds a single query string using local sentence-transformers."""
     model = get_embedding_model()
-
-    embedding = model.encode(
-        query,
-        normalize_embeddings=True
-    )
-
-    return embedding.tolist()
+    return model.encode(query).tolist()
 
 
-def embed_texts(texts: list[str]):
-    """Generate embeddings for multiple texts in batches."""
-
+def embed_texts(texts: list[str]) -> list[list[float]]:
+    """Embeds a list of text strings in batches."""
+    if not texts:
+        return []
     model = get_embedding_model()
-
-    all_embeddings = []
-
-    for i in range(0, len(texts), BATCH_SIZE):
-
-        batch = texts[i:i + BATCH_SIZE]
-
-        embeddings = model.encode(
-            batch,
-            normalize_embeddings=True,
-            show_progress_bar=True
-        )
-
-        all_embeddings.extend(embeddings.tolist())
-
-    return all_embeddings
+    embeddings = model.encode(texts)
+    return embeddings.tolist()

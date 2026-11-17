@@ -30,11 +30,11 @@ wheels/
 # Local Vector Store
 index.faiss
 metadata.pkl
-
+opencode.jsonc
 # Data
 .kilo
 .venv312
-
+MinIo-Storage
 # IDEs
 .vscode/
 .idea/

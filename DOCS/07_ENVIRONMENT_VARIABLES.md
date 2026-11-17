@@ -1,40 +1,36 @@
 # 🔑 Environment Variables & Configuration
 
-The project uses a `.env` file for local development and **GCP Secrets/Env Vars** for production. All configuration is managed via **Pydantic Settings** for strict type safety.
+The project uses a `.env` file for configuration. All configuration is centralized in `app/config.py`.
 
 ---
-
-## 🏛️ Core Settings
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `PROJECT_ID` | Your GCP Project ID | `dmtxpress` |
-| `LOCATION` | Primary GCP Region | `us-central1` |
 
 ## 🧠 AI & LLM (The Brain)
 | Variable | Description | Example |
 | :--- | :--- | :--- |
 | `GROQ_API_KEY` | Key for Llama 3.3 models | `gsk_...` |
 | `GROQ_MODEL` | Specific model version | `llama-3.3-70b-versatile` |
-| `GCP_DOC_AI_PROCESSOR_ID` | ID of the OCR parser | `786e...` |
+| `GROQ_FALLBACK_API_KEY` | Backup Groq key for fallback | `gsk_...` |
+| `PORTKEY_API_KEY` | Portkey Gateway API key | `pk_...` |
+| `PORTKEY_CONFIG_ID` | Portkey routing config ID | `pc-...` |
 
-## 📥 Ingestion & Storage
+## 📐 Embeddings
+| Variable | Description | Default |
+| :--- | :--- | :--- |
+| `EMBEDDING_MODEL_NAME` | Local SentenceTransformers model | `all-MiniLM-L6-v2` |
+
+## 🗄️ Vector Database (Qdrant)
 | Variable | Description | Example |
 | :--- | :--- | :--- |
-| `RAW_BUCKET` | Destination for raw PDFs | `dmtxpress-rag-raw` |
-| `PROCESSED_BUCKET` | Destination for JSON metadata | `dmtxpress-rag-processed` |
-
-## 🗄️ Persistence (The Memory)
-| Variable | Description | Example |
-| :--- | :--- | :--- |
-| `QDRANT_URL` | Cloud Qdrant Endpoint | `https://...` |
+| `QDRANT_CLUSTER_ENDPOINT` | Cloud / Local Qdrant Endpoint | `https://...` |
 | `QDRANT_API_KEY` | Qdrant Access Token | `xyz...` |
-| `DATABASE_URL` | Cloud SQL Postgres URI | `postgresql+pg8000://...` |
 
 ## 🕵️ Observability (The Vision)
 | Variable | Description | Example |
 | :--- | :--- | :--- |
-| `LOGFIRE_TOKEN` | Token for system tracing | `logfire_...` |
+| `LOGFIRE_TOKEN` | Token for system tracing | `pylf_...` |
 | `LANGSMITH_API_KEY` | Token for agent logic tracing | `lsv2_...` |
+| `LANGSMITH_TRACING` | Enable LangSmith tracing | `true` |
+| `LANGSMITH_PROJECT` | LangSmith project name | `enterprise_rag` |
 
 ---
 

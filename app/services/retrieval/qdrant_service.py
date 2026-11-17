@@ -4,11 +4,11 @@ from qdrant_client.http import models
 from app.config import settings
 from app.services.retrieval.embeddings import get_embedding_model, embed_query
 
-#initialize Qdrant client
+
+# Initialize Qdrant Client
 client = QdrantClient(
     url=settings.QDRANT_URL,
-    api_key=settings.QDRANT_API_KEY,
-    prefer_grpc=True  
+    api_key=settings.QDRANT_API_KEY
 )
 
 def search_enterprise_knowledge(query: str, limit: int = 8):
