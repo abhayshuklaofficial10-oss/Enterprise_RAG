@@ -38,6 +38,7 @@ MinIo-Storage
 # IDEs
 .vscode/
 .idea/
+BUGS.md
 
 # OS
 .DS_Store
@@ -56,3 +57,5 @@ tenvv
 
 # Logs
 *.log
+
+/BUGS.md
